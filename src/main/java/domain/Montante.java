@@ -1,14 +1,26 @@
 package domain;
 
+import static java.util.Objects.isNull;
+
 import java.math.BigDecimal;
 import java.util.Objects;
+import shared.BigDecimalComparador;
 
-public class Montante implements Comparable<Montante> {
+public class Montante {
+
+  protected static String VALOR_NOTA_INVALIDO = "Valor da nota deve ser uma valor positivo.";
+  protected static String QUANTIDADE_NOTA_INVALIDO = "Quantidade de notas deve ser uma valor positivo.";
 
   private BigDecimal valorNota;
   private Long quantidade;
 
-  public Montante(final BigDecimal valorNota, final Long quantidade) {
+  public Montante(final BigDecimal valorNota, final long quantidade) {
+    if (isNull(valorNota) || BigDecimalComparador.menorOuIgualQue(valorNota, BigDecimal.ZERO)) {
+      throw new IllegalArgumentException(VALOR_NOTA_INVALIDO);
+    }
+    if (quantidade <= 0) {
+      throw new IllegalArgumentException(QUANTIDADE_NOTA_INVALIDO);
+    }
     this.valorNota = valorNota;
     this.quantidade = quantidade;
   }
@@ -26,11 +38,6 @@ public class Montante implements Comparable<Montante> {
   }
 
   @Override
-  public int compareTo(final Montante montante) {
-    return this.valorNota.compareTo(montante.getValorNota());
-  }
-
-  @Override
   public boolean equals(final Object o) {
     if (this == o) {
       return true;
@@ -39,7 +46,7 @@ public class Montante implements Comparable<Montante> {
       return false;
     }
     final Montante montante = (Montante) o;
-    return Objects.equals(getValorNota(), montante.getValorNota()) && Objects
+    return getValorNota().compareTo(montante.getValorNota()) == 0 && Objects
         .equals(getQuantidade(), montante.getQuantidade());
   }
 
