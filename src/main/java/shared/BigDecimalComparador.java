@@ -1,0 +1,18 @@
+package shared;
+
+import java.math.BigDecimal;
+
+public class BigDecimalComparador {
+
+  public static boolean menorOuIgualQue(BigDecimal valor1, BigDecimal valor2) {
+    return valor1.compareTo(valor2) <= 0;
+  }
+
+  public static boolean maiorQue(BigDecimal valor1, BigDecimal valor2) {
+    return valor1.compareTo(valor2) == 1;
+  }
+
+  public static boolean maiorOuIgualQue(BigDecimal valor1, BigDecimal valor2) {
+    return valor1.compareTo(valor2) >= 0;
+  }
+}
