@@ -29,7 +29,7 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
       if (BigDecimalComparador.maiorQue(valorRestante, BigDecimal.ZERO)) {
 
         final Long quantidadeNotasNecessarias = valorRestante
-            .divideToIntegralValue(montanteDisponivel.getValor()).longValue();
+            .divideToIntegralValue(montanteDisponivel.getValorNota()).longValue();
 
         final Long quantidadeNotasUtilizadas =
             quantidadeNotasNecessarias <= montanteDisponivel.getQuantidade()
@@ -37,7 +37,7 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
                 : montanteDisponivel.getQuantidade();
 
         //inclui a nota no montante para sacar
-        final Montante montanteUtilizado = new Montante(montanteDisponivel.getNota(),
+        final Montante montanteUtilizado = new Montante(montanteDisponivel.getValorNota(),
             quantidadeNotasUtilizadas);
         montanteParaSacar.add(montanteUtilizado);
 
@@ -54,7 +54,7 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
       final BigDecimal valor) {
     final List<Montante> notasCandidatas = notasDisponiveis.stream().filter(
         nota -> nota.getQuantidade() > 0 && BigDecimalComparador
-            .menorOuIgualQue(nota.getValor(), valor)).collect(Collectors.toList());
+            .menorOuIgualQue(nota.getValorNota(), valor)).collect(Collectors.toList());
     Collections.sort(notasCandidatas, Collections.reverseOrder());
     return notasCandidatas;
   }

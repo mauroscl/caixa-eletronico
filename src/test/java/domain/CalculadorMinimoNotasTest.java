@@ -24,12 +24,12 @@ public class CalculadorMinimoNotasTest {
   @Test
   public void deveDisponibilizarSaqueMinimoNotasQuandoTiverTodasNotasDisponiveis() {
     List<Montante> montanteDisponivel = Arrays
-        .asList(new Montante(Nota.comValor(10), 1L), new Montante(Nota.comValor(1), 5L),
-            new Montante(Nota.comValor(2), 1L));
+        .asList(new Montante(BigDecimal.valueOf(10), 1L), new Montante(BigDecimal.valueOf(1), 5L),
+            new Montante(BigDecimal.valueOf(2), 1L));
     when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
 
     List<Montante> notasEsperadas = Arrays
-        .asList(new Montante(Nota.comValor(10), 1L), new Montante(Nota.comValor(2), 1L));
+        .asList(new Montante(BigDecimal.valueOf(10), 1L), new Montante(BigDecimal.valueOf(2), 1L));
 
     Collection<Montante> notasDisponiveis = this.calculadorNotas.calcular(BigDecimal.valueOf(12));
 
@@ -40,11 +40,11 @@ public class CalculadorMinimoNotasTest {
   @Test
   public void deveDisponilizarSaqueQuandoPuderAtenderComAsNotasExistentes() {
     List<Montante> montanteDisponivel = Arrays
-        .asList(new Montante(Nota.comValor(10), 1L), new Montante(Nota.comValor(5), 2L));
+        .asList(new Montante(BigDecimal.valueOf(10), 1L), new Montante(BigDecimal.valueOf(5), 2L));
     when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
 
     List<Montante> notasEsperadas = Arrays
-        .asList(new Montante(Nota.comValor(10), 1L), new Montante(Nota.comValor(5), 2L));
+        .asList(new Montante(BigDecimal.valueOf(10), 1L), new Montante(BigDecimal.valueOf(5), 2L));
 
     Collection<Montante> notasDisponiveis = this.calculadorNotas.calcular(BigDecimal.valueOf(20));
 
@@ -56,7 +56,7 @@ public class CalculadorMinimoNotasTest {
   @Test
   public void deveRetornarSaqueIndisponivelQuandoNaoTiverNotasParaAtenderValorIntegral() {
     List<Montante> montanteDisponivel = Arrays
-        .asList(new Montante(Nota.comValor(10), 1L), new Montante(Nota.comValor(5), 1L));
+        .asList(new Montante(BigDecimal.valueOf(10), 1L), new Montante(BigDecimal.valueOf(5), 1L));
     when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(11);
@@ -71,11 +71,11 @@ public class CalculadorMinimoNotasTest {
   @Test
   public void devePermitirSacarCentavosQuandoDisponivel() {
     List<Montante> montanteDisponivel = Arrays
-        .asList(new Montante(Nota.comValor(BigDecimal.valueOf(0.25)), 4L));
+        .asList(new Montante(BigDecimal.valueOf(0.25), 4L));
     when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
 
     List<Montante> notasEsperadas = Arrays
-        .asList(new Montante(Nota.comValor(BigDecimal.valueOf(0.25)), 3L));
+        .asList(new Montante(BigDecimal.valueOf(0.25), 3L));
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(0.75);
     Collection<Montante> notasDisponiveis = this.calculadorNotas.calcular(valorSolicitado);
