@@ -8,8 +8,8 @@ import shared.BigDecimalComparador;
 
 public class Montante {
 
-  protected static String VALOR_NOTA_INVALIDO = "Valor da nota deve ser uma valor positivo.";
-  protected static String QUANTIDADE_NOTA_INVALIDO = "Quantidade de notas deve ser uma valor positivo.";
+  protected static final String VALOR_NOTA_INVALIDO = "Valor da nota deve ser uma valor positivo.";
+  protected static final String QUANTIDADE_NOTA_INVALIDO = "Quantidade de notas deve ser uma valor positivo.";
 
   private BigDecimal valorNota;
   private Long quantidade;
