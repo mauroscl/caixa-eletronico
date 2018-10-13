@@ -18,43 +18,43 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
   }
 
   @Override
-  public Collection<Montante> calcular(final BigDecimal valorSaque) {
-    final Collection<Montante> notasDisponiveis = this.carregadorNotas.obterDisponiveis();
-    final Collection<Montante> notasCandidatas = this
+  public Collection<GrupoNotas> calcular(final BigDecimal valorSaque) {
+    final Collection<GrupoNotas> notasDisponiveis = this.carregadorNotas.obterDisponiveis();
+    final Collection<GrupoNotas> grupoNotasCandidatos = this
         .obterNotasCandidatas(notasDisponiveis, valorSaque);
 
     BigDecimal valorRestante = valorSaque;
-    final List<Montante> montanteParaEntregar = new ArrayList<>();
-    for (Montante montanteDisponivel : notasCandidatas) {
+    final Collection<GrupoNotas> notasParaEntregar = new ArrayList<>();
+    for (GrupoNotas grupoCandidato : grupoNotasCandidatos) {
 
-      if (BigDecimalComparador.maiorOuIgualQue(valorRestante, montanteDisponivel.getValorNota())) {
+      if (BigDecimalComparador.maiorOuIgualQue(valorRestante, grupoCandidato.getValor())) {
 
         final Long quantidadeNotasNecessarias = valorRestante
-            .divideToIntegralValue(montanteDisponivel.getValorNota()).longValue();
+            .divideToIntegralValue(grupoCandidato.getValor()).longValue();
 
         final Long quantidadeNotasUtilizadas =
-            quantidadeNotasNecessarias <= montanteDisponivel.getQuantidade()
-                ? quantidadeNotasNecessarias : montanteDisponivel.getQuantidade();
+            quantidadeNotasNecessarias <= grupoCandidato.getQuantidade()
+                ? quantidadeNotasNecessarias : grupoCandidato.getQuantidade();
 
-        final Montante montanteUtilizado = new Montante(montanteDisponivel.getValorNota(),
+        final GrupoNotas grupoNotasUtilizadas = new GrupoNotas(grupoCandidato.getValor(),
             quantidadeNotasUtilizadas);
-        montanteParaEntregar.add(montanteUtilizado);
+        notasParaEntregar.add(grupoNotasUtilizadas);
 
-        valorRestante = valorRestante.subtract(montanteUtilizado.getValorTotal());
+        valorRestante = valorRestante.subtract(grupoNotasUtilizadas.getValorTotal());
 
       }
 
     }
-    return montanteParaEntregar;
+    return notasParaEntregar;
   }
 
-  private Collection<Montante> obterNotasCandidatas(final Collection<Montante> notasDisponiveis,
-      final BigDecimal valor) {
-    final List<Montante> notasCandidatas = notasDisponiveis.stream().filter(
+  private Collection<GrupoNotas> obterNotasCandidatas(
+      final Collection<GrupoNotas> gruposDisponiveis, final BigDecimal valor) {
+    final List<GrupoNotas> gruposCandidatos = gruposDisponiveis.stream().filter(
         nota -> nota.getQuantidade() > 0 && BigDecimalComparador
-            .menorOuIgualQue(nota.getValorNota(), valor)).collect(Collectors.toList());
-    Collections.sort(notasCandidatas,
-        Comparator.comparing(Montante::getValorNota, Comparator.reverseOrder()));
-    return notasCandidatas;
+            .menorOuIgualQue(nota.getValor(), valor)).collect(Collectors.toList());
+    Collections.sort(gruposCandidatos,
+        Comparator.comparing(GrupoNotas::getValor, Comparator.reverseOrder()));
+    return gruposCandidatos;
   }
 }

@@ -22,16 +22,16 @@ public class CalculadorMinimoNotasTest {
   }
 
   @Test
-  public void deveDisponibilizarSaqueMinimoNotasQuandoTiverTodasNotasDisponiveis() {
-    List<Montante> montanteDisponivel = Arrays
-        .asList(new Montante(BigDecimal.valueOf(20), 1), new Montante(BigDecimal.valueOf(5), 2),
-            new Montante(BigDecimal.valueOf(10), 1));
-    when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
+  public void deveDisponibilizarSaqueComMinimoNotasQuandoTiverTodasNotasDisponiveis() {
+    List<GrupoNotas> grupoNotasDisponiveis = Arrays
+        .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(5), 2),
+            new GrupoNotas(BigDecimal.valueOf(10), 1));
+    when(carregadorNotas.obterDisponiveis()).thenReturn(grupoNotasDisponiveis);
 
-    List<Montante> notasEsperadas = Arrays
-        .asList(new Montante(BigDecimal.valueOf(20), 1), new Montante(BigDecimal.valueOf(10), 1));
+    List<GrupoNotas> notasEsperadas = Arrays
+        .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(10), 1));
 
-    Collection<Montante> notasEntregues = this.calculadorNotas.calcular(BigDecimal.valueOf(30));
+    Collection<GrupoNotas> notasEntregues = this.calculadorNotas.calcular(BigDecimal.valueOf(30));
 
     assertTrue(notasEsperadas.containsAll(notasEntregues));
     assertTrue(notasEntregues.containsAll(notasEsperadas));
@@ -39,61 +39,57 @@ public class CalculadorMinimoNotasTest {
 
   @Test
   public void deveDisponilizarSaqueQuandoPuderAtenderComAsNotasExistentesMesmoQueNaoSejaDaManeiraMaisOtimizada() {
-    List<Montante> montanteDisponivel = Arrays
-        .asList(new Montante(BigDecimal.valueOf(20), 1), new Montante(BigDecimal.valueOf(5), 6));
-    when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
+    List<GrupoNotas> grupoNotasDisponiveis = Arrays
+        .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(5), 6));
+    when(carregadorNotas.obterDisponiveis()).thenReturn(grupoNotasDisponiveis);
 
-    List<Montante> notasEsperadas = Arrays
-        .asList(new Montante(BigDecimal.valueOf(20), 1), new Montante(BigDecimal.valueOf(5), 2));
+    List<GrupoNotas> notasEsperadas = Arrays
+        .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(5), 2));
 
-    Collection<Montante> notasEntregues = this.calculadorNotas.calcular(BigDecimal.valueOf(30));
+    Collection<GrupoNotas> notasEntregues = this.calculadorNotas.calcular(BigDecimal.valueOf(30));
 
     assertTrue(notasEsperadas.containsAll(notasEntregues));
     assertTrue(notasEntregues.containsAll(notasEsperadas));
-
   }
 
   @Test
   public void deveRetornarSaqueIndisponivelQuandoNaoTiverMontanteNoCaixaParaAtenderValorIntegral() {
-    List<Montante> montanteDisponivel = Arrays.asList(new Montante(BigDecimal.valueOf(20), 1));
-    when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
+    List<GrupoNotas> grupoNotasDisponiveis = Arrays.asList(new GrupoNotas(BigDecimal.valueOf(20), 1));
+    when(carregadorNotas.obterDisponiveis()).thenReturn(grupoNotasDisponiveis);
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(30);
-    Collection<Montante> notasDisponiveis = this.calculadorNotas.calcular(valorSolicitado);
+    Collection<GrupoNotas> notasCalculadas = this.calculadorNotas.calcular(valorSolicitado);
 
-    BigDecimal valorDisponivel = notasDisponiveis.stream().map(m -> m.getValorTotal())
+    BigDecimal valorDisponivel = notasCalculadas.stream().map(m -> m.getValorTotal())
         .reduce(BigDecimal.ZERO, BigDecimal::add);
     assertNotEquals(valorSolicitado, valorDisponivel);
-
   }
 
   @Test
   public void deveRetornarSaqueIndisponivelQuandoTiverMontanteMasNaoTiverAsNotasParaAtenderSolicitacao() {
-
-    List<Montante> montanteDisponivel = Arrays.asList(new Montante(BigDecimal.valueOf(20), 2));
-    when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
+    List<GrupoNotas> grupoNotasDisponiveis = Arrays.asList(new GrupoNotas(BigDecimal.valueOf(20), 2));
+    when(carregadorNotas.obterDisponiveis()).thenReturn(grupoNotasDisponiveis);
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(30);
-    Collection<Montante> notasDisponiveis = this.calculadorNotas.calcular(valorSolicitado);
+    Collection<GrupoNotas> notasCalculadas = this.calculadorNotas.calcular(valorSolicitado);
 
-    BigDecimal valorDisponivel = notasDisponiveis.stream().map(m -> m.getValorTotal())
+    BigDecimal valorDisponivel = notasCalculadas.stream().map(m -> m.getValorTotal())
         .reduce(BigDecimal.ZERO, BigDecimal::add);
     assertNotEquals(valorSolicitado, valorDisponivel);
-
   }
 
   @Test
   public void devePermitirSacarCentavosQuandoDisponivel() {
-    List<Montante> montanteDisponivel = Arrays.asList(new Montante(BigDecimal.valueOf(0.25), 4));
-    when(carregadorNotas.obterDisponiveis()).thenReturn(montanteDisponivel);
+    List<GrupoNotas> grupoNotasDisponiveis = Arrays.asList(new GrupoNotas(BigDecimal.valueOf(0.25), 4));
+    when(carregadorNotas.obterDisponiveis()).thenReturn(grupoNotasDisponiveis);
 
-    List<Montante> notasEsperadas = Arrays.asList(new Montante(BigDecimal.valueOf(0.25), 3));
+    List<GrupoNotas> notasEsperadas = Arrays.asList(new GrupoNotas(BigDecimal.valueOf(0.25), 3));
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(0.75);
-    Collection<Montante> notasDisponiveis = this.calculadorNotas.calcular(valorSolicitado);
+    Collection<GrupoNotas> notasEntregues = this.calculadorNotas.calcular(valorSolicitado);
 
-    assertTrue(notasEsperadas.containsAll(notasDisponiveis));
-    assertTrue(notasDisponiveis.containsAll(notasEsperadas));
+    assertTrue(notasEsperadas.containsAll(notasEntregues));
+    assertTrue(notasEntregues.containsAll(notasEsperadas));
   }
 
 }

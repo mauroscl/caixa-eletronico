@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import domain.ICalculadorNotas;
-import domain.Montante;
+import domain.GrupoNotas;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import org.junit.Rule;
@@ -25,7 +25,7 @@ public class SaqueServiceTest {
   public SaqueServiceTest() {
     this.calculadorNotas = mock(ICalculadorNotas.class);
     when(this.calculadorNotas.calcular(any(BigDecimal.class)))
-        .thenReturn(Arrays.asList(new Montante(BigDecimal.TEN, 10)));
+        .thenReturn(Arrays.asList(new GrupoNotas(BigDecimal.TEN, 10)));
     this.saqueService = new SaqueService(this.calculadorNotas);
   }
 
@@ -43,9 +43,19 @@ public class SaqueServiceTest {
     expectedException.expect(IllegalArgumentException.class);
     expectedException.expectMessage(SaqueService.VALOR_SAQUE_INVALIDO);
 
+    SaqueCommand saqueCommand = new SaqueCommand(BigDecimal.valueOf(-100));
+    this.saqueService.sacar(saqueCommand);
+  }
+
+  @Test
+  public void naoDevePermitirRealizacaoSaqueQuandoNaoInformarValor() {
+    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expectMessage(SaqueService.VALOR_SAQUE_INVALIDO);
+
     SaqueCommand saqueCommand = new SaqueCommand(null);
     this.saqueService.sacar(saqueCommand);
   }
+
 
   @Test
   public void naoDevePermitirRealizacaoSaqueQuandoInformarValorComMaisDeDuasCasasDecimais() {

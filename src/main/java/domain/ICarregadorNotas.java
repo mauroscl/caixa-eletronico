@@ -4,5 +4,5 @@ import java.util.Collection;
 
 public interface ICarregadorNotas {
 
-  Collection<Montante> obterDisponiveis();
+  Collection<GrupoNotas> obterDisponiveis();
 }
