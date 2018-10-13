@@ -1,7 +1,6 @@
 package domain;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,7 +17,7 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
   }
 
   @Override
-  public CalculoNotasRetorno calcular(final BigDecimal valorSaque) {
+  public CalculoNotasResultado calcular(final BigDecimal valorSaque) {
     final Montante montanteDisponivel = this.carregadorNotas.obterDisponiveis();
     final Collection<GrupoNotas> grupoNotasCandidatos = this
         .obterNotasCandidatas(montanteDisponivel.getGruposNotas(), valorSaque);
@@ -48,7 +47,7 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
 
     boolean encontrouNotas = BigDecimalComparador.igual(valorSaque, montanteParaEntregar.getValorTotal());
 
-    return new CalculoNotasRetorno(encontrouNotas, montanteParaEntregar);
+    return new CalculoNotasResultado(encontrouNotas, montanteParaEntregar);
 
   }
 

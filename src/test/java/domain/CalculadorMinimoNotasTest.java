@@ -35,7 +35,7 @@ public class CalculadorMinimoNotasTest {
         .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(10), 1));
 
     final BigDecimal valorSaque = BigDecimal.valueOf(30);
-    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSaque);
+    final CalculoNotasResultado resultado = this.calculadorNotas.calcular(valorSaque);
     assertTrue(resultado.isEncontrouNotas());
 
     final Montante montanteEntregue = resultado.getMontante();
@@ -57,7 +57,7 @@ public class CalculadorMinimoNotasTest {
         .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(5), 2));
 
     final BigDecimal valorSaque = BigDecimal.valueOf(30);
-    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSaque);
+    final CalculoNotasResultado resultado = this.calculadorNotas.calcular(valorSaque);
     assertTrue(resultado.isEncontrouNotas());
 
     Montante montanteEntregue = resultado.getMontante();
@@ -75,7 +75,7 @@ public class CalculadorMinimoNotasTest {
     when(carregadorNotas.obterDisponiveis()).thenReturn(montante);
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(30);
-    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSolicitado);
+    final CalculoNotasResultado resultado = this.calculadorNotas.calcular(valorSolicitado);
     assertFalse(resultado.isEncontrouNotas());
   }
 
@@ -87,7 +87,7 @@ public class CalculadorMinimoNotasTest {
     when(carregadorNotas.obterDisponiveis()).thenReturn(montante);
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(30);
-    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSolicitado);
+    final CalculoNotasResultado resultado = this.calculadorNotas.calcular(valorSolicitado);
 
     assertFalse(resultado.isEncontrouNotas());
   }
@@ -101,7 +101,7 @@ public class CalculadorMinimoNotasTest {
     List<GrupoNotas> notasEsperadas = Arrays.asList(new GrupoNotas(BigDecimal.valueOf(0.25), 3));
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(0.75);
-    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSolicitado);
+    final CalculoNotasResultado resultado = this.calculadorNotas.calcular(valorSolicitado);
     Montante montanteEntregue = resultado.getMontante();
     assertEquals(valorSolicitado, montanteEntregue.getValorTotal());
 

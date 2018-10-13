@@ -1,10 +1,10 @@
 package domain;
 
-public class CalculoNotasRetorno {
+public class CalculoNotasResultado {
   private boolean encontrouNotas;
   private Montante montante;
 
-  public CalculoNotasRetorno(final boolean encontrouNotas, final Montante montante) {
+  public CalculoNotasResultado(final boolean encontrouNotas, final Montante montante) {
     this.encontrouNotas = encontrouNotas;
     this.montante = montante;
   }
