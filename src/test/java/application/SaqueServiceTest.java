@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import domain.CalculoNotasRetorno;
 import domain.GrupoNotas;
 import domain.ICalculadorNotas;
 import domain.Montante;
@@ -26,7 +27,8 @@ public class SaqueServiceTest {
     this.calculadorNotas = mock(ICalculadorNotas.class);
     final Montante montante = new Montante();
     montante.adicionarGrupo(new GrupoNotas(BigDecimal.TEN, 10));
-    when(this.calculadorNotas.calcular(any(BigDecimal.class))).thenReturn(montante);
+    final CalculoNotasRetorno retorno = new CalculoNotasRetorno(true, montante);
+    when(this.calculadorNotas.calcular(any(BigDecimal.class))).thenReturn(retorno);
     this.saqueService = new SaqueService(this.calculadorNotas);
   }
 

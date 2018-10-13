@@ -5,5 +5,5 @@ import java.util.Collection;
 
 public interface ICalculadorNotas {
 
-  Montante calcular(BigDecimal valorSaque);
+  CalculoNotasRetorno calcular(BigDecimal valorSaque);
 }

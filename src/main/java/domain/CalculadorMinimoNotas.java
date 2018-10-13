@@ -18,7 +18,7 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
   }
 
   @Override
-  public Montante calcular(final BigDecimal valorSaque) {
+  public CalculoNotasRetorno calcular(final BigDecimal valorSaque) {
     final Montante montanteDisponivel = this.carregadorNotas.obterDisponiveis();
     final Collection<GrupoNotas> grupoNotasCandidatos = this
         .obterNotasCandidatas(montanteDisponivel.getGruposNotas(), valorSaque);
@@ -45,7 +45,11 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
       }
 
     }
-    return montanteParaEntregar;
+
+    boolean encontrouNotas = BigDecimalComparador.igual(valorSaque, montanteParaEntregar.getValorTotal());
+
+    return new CalculoNotasRetorno(encontrouNotas, montanteParaEntregar);
+
   }
 
   private Collection<GrupoNotas> obterNotasCandidatas(

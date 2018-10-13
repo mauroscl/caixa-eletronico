@@ -1,7 +1,7 @@
 package domain;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,7 +35,10 @@ public class CalculadorMinimoNotasTest {
         .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(10), 1));
 
     final BigDecimal valorSaque = BigDecimal.valueOf(30);
-    final Montante montanteEntregue = this.calculadorNotas.calcular(valorSaque);
+    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSaque);
+    assertTrue(resultado.isEncontrouNotas());
+
+    final Montante montanteEntregue = resultado.getMontante();
     assertEquals(valorSaque, montanteEntregue.getValorTotal());
 
     final Collection<GrupoNotas> notasEntregues = montanteEntregue.getGruposNotas();
@@ -54,7 +57,10 @@ public class CalculadorMinimoNotasTest {
         .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(5), 2));
 
     final BigDecimal valorSaque = BigDecimal.valueOf(30);
-    Montante montanteEntregue = this.calculadorNotas.calcular(valorSaque);
+    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSaque);
+    assertTrue(resultado.isEncontrouNotas());
+
+    Montante montanteEntregue = resultado.getMontante();
     assertEquals(valorSaque, montanteEntregue.getValorTotal());
 
     final Collection<GrupoNotas> notasEntregues = montanteEntregue.getGruposNotas();
@@ -69,9 +75,8 @@ public class CalculadorMinimoNotasTest {
     when(carregadorNotas.obterDisponiveis()).thenReturn(montante);
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(30);
-    Montante montanteCalculado = this.calculadorNotas.calcular(valorSolicitado);
-
-    assertNotEquals(valorSolicitado, montanteCalculado.getValorTotal());
+    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSolicitado);
+    assertFalse(resultado.isEncontrouNotas());
   }
 
   @Test
@@ -82,9 +87,9 @@ public class CalculadorMinimoNotasTest {
     when(carregadorNotas.obterDisponiveis()).thenReturn(montante);
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(30);
-    Montante montanteCalculado = this.calculadorNotas.calcular(valorSolicitado);
+    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSolicitado);
 
-    assertNotEquals(valorSolicitado, montanteCalculado.getValorTotal());
+    assertFalse(resultado.isEncontrouNotas());
   }
 
   @Test
@@ -96,7 +101,8 @@ public class CalculadorMinimoNotasTest {
     List<GrupoNotas> notasEsperadas = Arrays.asList(new GrupoNotas(BigDecimal.valueOf(0.25), 3));
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(0.75);
-    Montante montanteEntregue = this.calculadorNotas.calcular(valorSolicitado);
+    final CalculoNotasRetorno resultado = this.calculadorNotas.calcular(valorSolicitado);
+    Montante montanteEntregue = resultado.getMontante();
     assertEquals(valorSolicitado, montanteEntregue.getValorTotal());
 
     final Collection<GrupoNotas> notasEntregues = montanteEntregue.getGruposNotas();
