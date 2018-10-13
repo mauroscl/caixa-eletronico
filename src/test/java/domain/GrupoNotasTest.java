@@ -54,5 +54,22 @@ public class GrupoNotasTest {
     new GrupoNotas(BigDecimal.valueOf(10), -10);
   }
 
+  @Test
+  public void deveSomarGruposDeNotasDeMesmoValor() {
+    final GrupoNotas grupo1 = new GrupoNotas(BigDecimal.TEN, 3);
+    final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.TEN, 5);
+    final GrupoNotas novoGrupo = grupo1.somar(grupo2);
+    assertEquals(new GrupoNotas(BigDecimal.TEN, 8), novoGrupo);
+  }
+
+  @Test
+  public void naoDevePermirSomarGruposDeNotasDeValoresDiferentes() {
+    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expectMessage(GrupoNotas.SOMA_VALORES_DIFERENTES);
+    final GrupoNotas grupo1 = new GrupoNotas(BigDecimal.TEN, 3);
+    final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.ONE, 5);
+    grupo1.somar(grupo2);
+  }
+
 
 }

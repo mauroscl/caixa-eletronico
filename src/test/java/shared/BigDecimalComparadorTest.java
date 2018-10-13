@@ -52,5 +52,20 @@ public class BigDecimalComparadorTest {
     assertFalse(BigDecimalComparador.igual(BigDecimal.TEN, BigDecimal.ONE));
   }
 
+  @Test
+  public void diferenteDeveRetornarVerdadeiroQuandoValor1ForMenorQueValor2() {
+    assertTrue(BigDecimalComparador.diferente(BigDecimal.ONE, BigDecimal.TEN));
+  }
+
+  @Test
+  public void diferenteDeveRetornarVerdadeiroQuandoValor1ForMaiorQueValor2() {
+    assertTrue(BigDecimalComparador.diferente(BigDecimal.TEN, BigDecimal.ONE));
+  }
+
+  @Test
+  public void diferenteDeveRetornarFalsoQuandoValor1ForIgualValor2() {
+    assertFalse(BigDecimalComparador.diferente(BigDecimal.TEN, BigDecimal.TEN));
+  }
+
 
 }

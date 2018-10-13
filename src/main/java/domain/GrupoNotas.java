@@ -10,6 +10,7 @@ public class GrupoNotas {
 
   protected static final String VALOR_NOTA_INVALIDO = "Valor da nota deve ser uma valor positivo.";
   protected static final String QUANTIDADE_NOTA_INVALIDO = "Quantidade de notas deve ser uma valor positivo.";
+  protected static final String SOMA_VALORES_DIFERENTES = "Não é possível somar notas de valores diferentes.";
 
   private BigDecimal valor;
   private Long quantidade;
@@ -53,5 +54,12 @@ public class GrupoNotas {
   @Override
   public int hashCode() {
     return Objects.hash(getValor(), getQuantidade());
+  }
+
+  GrupoNotas somar(final GrupoNotas grupoNotas) {
+    if (BigDecimalComparador.diferente(this.getValor(), grupoNotas.getValor())) {
+      throw new IllegalArgumentException(SOMA_VALORES_DIFERENTES);
+    }
+    return new GrupoNotas(this.valor, this.quantidade + grupoNotas.quantidade);
   }
 }
