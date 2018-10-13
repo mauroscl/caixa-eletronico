@@ -18,13 +18,13 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
   }
 
   @Override
-  public Collection<GrupoNotas> calcular(final BigDecimal valorSaque) {
-    final Collection<GrupoNotas> notasDisponiveis = this.carregadorNotas.obterDisponiveis();
+  public Montante calcular(final BigDecimal valorSaque) {
+    final Montante montanteDisponivel = this.carregadorNotas.obterDisponiveis();
     final Collection<GrupoNotas> grupoNotasCandidatos = this
-        .obterNotasCandidatas(notasDisponiveis, valorSaque);
+        .obterNotasCandidatas(montanteDisponivel.getGruposNotas(), valorSaque);
 
+    final Montante montanteParaEntregar = new Montante();
     BigDecimal valorRestante = valorSaque;
-    final Collection<GrupoNotas> notasParaEntregar = new ArrayList<>();
     for (GrupoNotas grupoCandidato : grupoNotasCandidatos) {
 
       if (BigDecimalComparador.maiorOuIgualQue(valorRestante, grupoCandidato.getValor())) {
@@ -38,14 +38,14 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
 
         final GrupoNotas grupoNotasUtilizadas = new GrupoNotas(grupoCandidato.getValor(),
             quantidadeNotasUtilizadas);
-        notasParaEntregar.add(grupoNotasUtilizadas);
+        montanteParaEntregar.adicionarGrupo(grupoNotasUtilizadas);
 
         valorRestante = valorRestante.subtract(grupoNotasUtilizadas.getValorTotal());
 
       }
 
     }
-    return notasParaEntregar;
+    return montanteParaEntregar;
   }
 
   private Collection<GrupoNotas> obterNotasCandidatas(

@@ -6,10 +6,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import domain.ICalculadorNotas;
 import domain.GrupoNotas;
+import domain.ICalculadorNotas;
+import domain.Montante;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,8 +24,9 @@ public class SaqueServiceTest {
 
   public SaqueServiceTest() {
     this.calculadorNotas = mock(ICalculadorNotas.class);
-    when(this.calculadorNotas.calcular(any(BigDecimal.class)))
-        .thenReturn(Arrays.asList(new GrupoNotas(BigDecimal.TEN, 10)));
+    final Montante montante = new Montante();
+    montante.adicionarGrupo(new GrupoNotas(BigDecimal.TEN, 10));
+    when(this.calculadorNotas.calcular(any(BigDecimal.class))).thenReturn(montante);
     this.saqueService = new SaqueService(this.calculadorNotas);
   }
 
@@ -65,7 +66,6 @@ public class SaqueServiceTest {
     SaqueCommand saqueCommand = new SaqueCommand(BigDecimal.valueOf(20.125));
     this.saqueService.sacar(saqueCommand);
   }
-
 
 
 }

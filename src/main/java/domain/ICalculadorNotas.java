@@ -5,5 +5,5 @@ import java.util.Collection;
 
 public interface ICalculadorNotas {
 
-  Collection<GrupoNotas> calcular(BigDecimal valorSaque);
+  Montante calcular(BigDecimal valorSaque);
 }
