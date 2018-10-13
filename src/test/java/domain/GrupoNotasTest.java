@@ -1,9 +1,11 @@
 package domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -70,6 +72,43 @@ public class GrupoNotasTest {
     final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.ONE, 5);
     grupo1.somar(grupo2);
   }
+
+  @Test
+  public void deveSubtrairGruposDeNotasDeMesmoValor() {
+    final GrupoNotas grupo1 = new GrupoNotas(BigDecimal.TEN, 5);
+    final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.TEN, 3);
+    final Optional<GrupoNotas> possivelGrupo = grupo1.subtrair(grupo2);
+    assertTrue(possivelGrupo.isPresent());
+    final GrupoNotas novoGrupo = possivelGrupo.get();
+    assertEquals(new GrupoNotas(BigDecimal.TEN, 2), novoGrupo);
+  }
+
+  @Test
+  public void quandoQuantidadesForemIguaisDeveRetornarGrupoVazio() {
+    final GrupoNotas grupo1 = new GrupoNotas(BigDecimal.TEN, 5);
+    final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.TEN, 5);
+    final Optional<GrupoNotas> novoGrupo = grupo1.subtrair(grupo2);
+    assertFalse(novoGrupo.isPresent());
+  }
+
+  @Test
+  public void naoDevePermirSubtrairGruposDeNotasDeValoresDiferentes() {
+    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expectMessage(GrupoNotas.SUBTRACAO_VALORES_DIFERENTES);
+    final GrupoNotas grupo1 = new GrupoNotas(BigDecimal.TEN, 3);
+    final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.ONE, 5);
+    grupo1.subtrair(grupo2);
+  }
+
+  @Test
+  public void naoDevePermirSubtrairQuandoQuantidadeDoSegundoGrupoForMaiorQueDoPrimeiro() {
+    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expectMessage(GrupoNotas.QUANTIDADE_NOTA_INVALIDO);
+    final GrupoNotas grupo1 = new GrupoNotas(BigDecimal.TEN, 3);
+    final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.TEN, 5);
+    grupo1.subtrair(grupo2);
+  }
+
 
 
 }

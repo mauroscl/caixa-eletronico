@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Optional;
 import shared.BigDecimalComparador;
 
 public class GrupoNotas {
@@ -11,6 +12,7 @@ public class GrupoNotas {
   protected static final String VALOR_NOTA_INVALIDO = "Valor da nota deve ser uma valor positivo.";
   protected static final String QUANTIDADE_NOTA_INVALIDO = "Quantidade de notas deve ser uma valor positivo.";
   protected static final String SOMA_VALORES_DIFERENTES = "Não é possível somar notas de valores diferentes.";
+  protected static final String SUBTRACAO_VALORES_DIFERENTES = "Não é possível subtrair notas de valores diferentes.";
 
   private BigDecimal valor;
   private Long quantidade;
@@ -38,6 +40,22 @@ public class GrupoNotas {
     return this.valor.multiply(BigDecimal.valueOf(this.quantidade));
   }
 
+  protected GrupoNotas somar(final GrupoNotas grupoNotas) {
+    if (BigDecimalComparador.diferente(this.getValor(), grupoNotas.getValor())) {
+      throw new IllegalArgumentException(SOMA_VALORES_DIFERENTES);
+    }
+    return new GrupoNotas(this.valor, this.quantidade + grupoNotas.quantidade);
+  }
+
+  protected Optional<GrupoNotas> subtrair(final GrupoNotas grupoNotas) {
+    if (BigDecimalComparador.diferente(this.getValor(), grupoNotas.getValor())) {
+      throw new IllegalArgumentException(SUBTRACAO_VALORES_DIFERENTES);
+    }
+    return this.quantidade == grupoNotas.quantidade
+        ? Optional.empty()
+        : Optional.of(new GrupoNotas(this.valor, this.quantidade - grupoNotas.quantidade)) ;
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
@@ -56,10 +74,4 @@ public class GrupoNotas {
     return Objects.hash(getValor(), getQuantidade());
   }
 
-  GrupoNotas somar(final GrupoNotas grupoNotas) {
-    if (BigDecimalComparador.diferente(this.getValor(), grupoNotas.getValor())) {
-      throw new IllegalArgumentException(SOMA_VALORES_DIFERENTES);
-    }
-    return new GrupoNotas(this.valor, this.quantidade + grupoNotas.quantidade);
-  }
 }

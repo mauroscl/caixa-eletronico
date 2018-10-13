@@ -2,8 +2,9 @@ package application;
 
 import static java.util.Objects.isNull;
 
-import domain.CalculoNotasResultado;
-import domain.ICalculadorNotas;
+import domain.IAvaliadorSaqueService;
+import domain.IMontanteRepository;
+import domain.Montante;
 import java.math.BigDecimal;
 import shared.BigDecimalComparador;
 
@@ -12,17 +13,21 @@ class SaqueService implements ISaqueService {
   protected static final String VALOR_SAQUE_INVALIDO = "Valor solicitado para saque deve ser maior do que zero.";
   protected static final String CASAS_DECIMAIS_SAQUE_INVALIDO = "Valor solicitado para saque deve conter no máximo 2 dígitos decimais.";
 
-  private final ICalculadorNotas calculadorNotas;
+  private final IMontanteRepository montanteRepository;
+  private final IAvaliadorSaqueService avaliadorSaqueService;
   private final ICaixaService caixaService;
 
-  SaqueService(final ICalculadorNotas calculadorNotas, final ICaixaService caixaService) {
-    this.calculadorNotas = calculadorNotas;
+  SaqueService(final IMontanteRepository montanteRepository,
+      final IAvaliadorSaqueService avaliadorSaqueService, final ICaixaService caixaService) {
+    this.montanteRepository = montanteRepository;
+    this.avaliadorSaqueService = avaliadorSaqueService;
     this.caixaService = caixaService;
   }
 
   @Override
   public void sacar(SaqueCommand command) {
-    if (isNull(command.getValor()) || BigDecimalComparador.menorOuIgualQue(command.getValor(), BigDecimal.ZERO)) {
+    if (isNull(command.getValor()) || BigDecimalComparador
+        .menorOuIgualQue(command.getValor(), BigDecimal.ZERO)) {
       throw new IllegalArgumentException(VALOR_SAQUE_INVALIDO);
     }
 
@@ -30,13 +35,13 @@ class SaqueService implements ISaqueService {
       throw new IllegalArgumentException(CASAS_DECIMAIS_SAQUE_INVALIDO);
     }
 
-    final CalculoNotasResultado resultado = this.calculadorNotas.calcular(command.getValor());
+    final Montante montanteDisponivel = this.montanteRepository.obterDisponivel();
 
-    if(resultado.isEncontrouNotas()) {
-      this.caixaService.entregarDinheiro(resultado.getMontante());
-    } else {
-      this.caixaService.avisarIndisponibilidade(command.getValor(), resultado.getMontante());
-    }
+    this.avaliadorSaqueService.avaliar(command.getValor(), montanteDisponivel)
+        .ifPresentOrElse(resultado -> {
+          this.caixaService.entregarDinheiro(resultado.getMontanteParaEntregar());
+          this.montanteRepository.salvar(resultado.getNovoMontanteDisponivel());
+        }, () -> this.caixaService.avisarIndisponibilidade());
   }
 
 }

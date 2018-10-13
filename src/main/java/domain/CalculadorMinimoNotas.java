@@ -10,15 +10,8 @@ import shared.BigDecimalComparador;
 
 public class CalculadorMinimoNotas implements ICalculadorNotas {
 
-  private ICarregadorNotas carregadorNotas;
-
-  public CalculadorMinimoNotas(final ICarregadorNotas carregadorNotas) {
-    this.carregadorNotas = carregadorNotas;
-  }
-
   @Override
-  public CalculoNotasResultado calcular(final BigDecimal valorSaque) {
-    final Montante montanteDisponivel = this.carregadorNotas.obterDisponiveis();
+  public Montante calcular(final BigDecimal valorSaque, Montante montanteDisponivel) {
     final Collection<GrupoNotas> grupoNotasCandidatos = this
         .obterNotasCandidatas(montanteDisponivel.getGruposNotas(), valorSaque);
 
@@ -45,10 +38,7 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
 
     }
 
-    boolean encontrouNotas = BigDecimalComparador.igual(valorSaque, montanteParaEntregar.getValorTotal());
-
-    return new CalculoNotasResultado(encontrouNotas, montanteParaEntregar);
-
+    return montanteParaEntregar;
   }
 
   private Collection<GrupoNotas> obterNotasCandidatas(

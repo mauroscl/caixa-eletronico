@@ -27,11 +27,26 @@ public class MontanteTest {
     assertEquals(new GrupoNotas(BigDecimal.valueOf(2), 15), gruposNotas.toArray()[0]);
   }
 
-//  @Test
-//  public void deveCalcularNovoMontanteQuandoRemoverNotas() {
-//    final Montante montanteOriginal = new Montante();
-//    montanteOriginal.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(10), 5));
-//    montanteOriginal.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(20), 4));
-//    montanteOriginal.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(50), 3));
-//  }
+  @Test
+  public void deveCalcularNovoMontanteQuandoRemoverNotas() {
+    final Montante montanteOriginal = new Montante();
+    montanteOriginal.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(10), 5));
+    montanteOriginal.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(20), 4));
+    montanteOriginal.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(50), 3));
+
+    /*
+    * notas de 10 - remove 2 ficam 3
+    * notas de 20 - não remove nenhuma
+    * notas de 50 - remove todas
+     */
+    final Montante montanteParaRemover = new Montante();
+    montanteParaRemover.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(10), 2));
+    montanteParaRemover.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(50), 3));
+
+    Montante montanteResultado = montanteOriginal.remover(montanteParaRemover);
+
+    assertEquals(BigDecimal.valueOf(110), montanteResultado.getValorTotal());
+    final Collection<GrupoNotas> gruposNotas = montanteResultado.getGruposNotas();
+    assertEquals(2, gruposNotas.size());
+  }
 }

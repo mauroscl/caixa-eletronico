@@ -4,5 +4,5 @@ import java.math.BigDecimal;
 
 public interface ICalculadorNotas {
 
-  CalculoNotasResultado calcular(BigDecimal valorSaque);
+  Montante calcular(BigDecimal valorSaque, Montante montanteDisponivel);
 }
