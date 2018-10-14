@@ -1,8 +1,8 @@
-package domain;
+package br.com.mauroscl.domain;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-import shared.BigDecimalComparador;
+import br.com.mauroscl.shared.BigDecimalComparador;
 
 public class AvaliadorSaqueService implements IAvaliadorSaqueService {
 

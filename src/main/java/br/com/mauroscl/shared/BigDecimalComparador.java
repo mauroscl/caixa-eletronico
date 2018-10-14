@@ -1,4 +1,4 @@
-package shared;
+package br.com.mauroscl.shared;
 
 import java.math.BigDecimal;
 

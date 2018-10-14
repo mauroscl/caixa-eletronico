@@ -1,7 +1,6 @@
-package application;
+package br.com.mauroscl.application;
 
-import domain.Montante;
-import java.math.BigDecimal;
+import br.com.mauroscl.domain.Montante;
 
 public interface ICaixaService {
   void entregarDinheiro(Montante montante);

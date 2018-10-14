@@ -1,11 +1,11 @@
-package domain;
+package br.com.mauroscl.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Predicate;
-import shared.BigDecimalComparador;
+import br.com.mauroscl.shared.BigDecimalComparador;
 
 public class Montante {
 

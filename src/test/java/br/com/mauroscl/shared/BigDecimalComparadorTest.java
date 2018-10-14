@@ -1,4 +1,4 @@
-package shared;
+package br.com.mauroscl.shared;
 
 import static org.junit.Assert.*;
 

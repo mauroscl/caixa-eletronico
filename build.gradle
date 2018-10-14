@@ -2,10 +2,10 @@ plugins {
     id 'java'
 }
 
-group 'br.mauroscl.com'
+group 'br.com.mauroscl'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.9
 
 repositories {
     mavenCentral()

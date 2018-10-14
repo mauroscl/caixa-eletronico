@@ -1,4 +1,4 @@
-package domain;
+package br.com.mauroscl.domain;
 
 public interface IMontanteRepository {
 

@@ -1,4 +1,4 @@
-package domain;
+package br.com.mauroscl.domain;
 
 import java.math.BigDecimal;
 

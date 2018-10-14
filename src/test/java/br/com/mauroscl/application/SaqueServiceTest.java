@@ -1,4 +1,4 @@
-package application;
+package br.com.mauroscl.application;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -7,11 +7,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import domain.AvaliacaoSaqueResultado;
-import domain.GrupoNotas;
-import domain.IAvaliadorSaqueService;
-import domain.IMontanteRepository;
-import domain.Montante;
+import br.com.mauroscl.domain.AvaliacaoSaqueResultado;
+import br.com.mauroscl.domain.GrupoNotas;
+import br.com.mauroscl.domain.IAvaliadorSaqueService;
+import br.com.mauroscl.domain.IMontanteRepository;
+import br.com.mauroscl.domain.Montante;
 import java.math.BigDecimal;
 import java.util.Optional;
 import org.junit.Rule;

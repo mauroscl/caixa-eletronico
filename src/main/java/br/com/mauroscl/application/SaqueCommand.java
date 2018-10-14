@@ -1,4 +1,4 @@
-package application;
+package br.com.mauroscl.application;
 
 import java.math.BigDecimal;
 

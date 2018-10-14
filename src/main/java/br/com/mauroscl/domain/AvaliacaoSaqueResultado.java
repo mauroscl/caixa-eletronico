@@ -1,4 +1,4 @@
-package domain;
+package br.com.mauroscl.domain;
 
 public class AvaliacaoSaqueResultado {
   private Montante montanteParaEntregar;

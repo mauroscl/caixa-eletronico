@@ -1,12 +1,12 @@
-package application;
+package br.com.mauroscl.application;
 
 import static java.util.Objects.isNull;
 
-import domain.IAvaliadorSaqueService;
-import domain.IMontanteRepository;
-import domain.Montante;
+import br.com.mauroscl.domain.IAvaliadorSaqueService;
+import br.com.mauroscl.domain.IMontanteRepository;
+import br.com.mauroscl.domain.Montante;
 import java.math.BigDecimal;
-import shared.BigDecimalComparador;
+import br.com.mauroscl.shared.BigDecimalComparador;
 
 class SaqueService implements ISaqueService {
 

@@ -1,4 +1,4 @@
-package application;
+package br.com.mauroscl.application;
 
 public interface ISaqueService {
 
