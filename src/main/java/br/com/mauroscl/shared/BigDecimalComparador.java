@@ -19,4 +19,8 @@ public class BigDecimalComparador {
   public static boolean diferente(final BigDecimal valor1, final BigDecimal valor2) {
     return valor1.compareTo(valor2) != 0;
   }
+
+  public static boolean maiorQue(final BigDecimal valor1, final BigDecimal valor2) {
+    return valor1.compareTo(valor2) > 0;
+  }
 }

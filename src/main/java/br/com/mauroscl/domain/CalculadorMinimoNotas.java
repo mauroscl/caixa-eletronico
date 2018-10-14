@@ -1,12 +1,10 @@
 package br.com.mauroscl.domain;
 
+import br.com.mauroscl.shared.BigDecimalComparador;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
-import br.com.mauroscl.shared.BigDecimalComparador;
 
 public class CalculadorMinimoNotas implements ICalculadorNotas {
 
@@ -43,11 +41,10 @@ public class CalculadorMinimoNotas implements ICalculadorNotas {
 
   private Collection<GrupoNotas> obterNotasCandidatas(
       final Collection<GrupoNotas> gruposDisponiveis, final BigDecimal valor) {
-    final List<GrupoNotas> gruposCandidatos = gruposDisponiveis.stream().filter(
+    return gruposDisponiveis.stream().filter(
         nota -> nota.getQuantidade() > 0 && BigDecimalComparador
-            .menorOuIgualQue(nota.getValor(), valor)).collect(Collectors.toList());
-    Collections.sort(gruposCandidatos,
-        Comparator.comparing(GrupoNotas::getValor, Comparator.reverseOrder()));
-    return gruposCandidatos;
+            .menorOuIgualQue(nota.getValor(), valor))
+        .sorted(Comparator.comparing(GrupoNotas::getValor, Comparator.reverseOrder()))
+        .collect(Collectors.toList());
   }
 }

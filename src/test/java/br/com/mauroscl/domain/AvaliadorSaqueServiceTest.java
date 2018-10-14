@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class AvaliadorSaqueServiceTest {
 
-  private IAvaliadorSaqueService avaliadorSaqueService;
+  private final IAvaliadorSaqueService avaliadorSaqueService;
 
   public AvaliadorSaqueServiceTest() {
     this.avaliadorSaqueService = new AvaliadorSaqueService(new CalculadorMinimoNotas());
@@ -22,7 +22,14 @@ public class AvaliadorSaqueServiceTest {
   }
 
   @Test
-  public void deveRetornarResultadoVazioQuandoNaoTiverNotas() {
+  public void deveRetornarResultadoVazioQuandoNaoTiverNotasSuficientes() {
+    final Montante montanteDisponivel = new Montante();
+    montanteDisponivel.adicionarGrupo(new GrupoNotas(BigDecimal.TEN, 5));
+    assertFalse(this.avaliadorSaqueService.avaliar(BigDecimal.valueOf(15), montanteDisponivel).isPresent());
+  }
+
+  @Test
+  public void deveRetornarResultadoVazioQuandoNaoTiverSaldoEmCaixaParaAtenderSolicitacao() {
     final Montante montanteDisponivel = new Montante();
     montanteDisponivel.adicionarGrupo(new GrupoNotas(BigDecimal.TEN, 5));
     assertFalse(this.avaliadorSaqueService.avaliar(BigDecimal.valueOf(100), montanteDisponivel).isPresent());

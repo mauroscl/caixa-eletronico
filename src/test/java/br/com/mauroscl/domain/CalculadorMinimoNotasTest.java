@@ -1,20 +1,19 @@
 package br.com.mauroscl.domain;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 
 public class CalculadorMinimoNotasTest {
 
-  private ICalculadorNotas calculadorNotas;
+  private final ICalculadorNotas calculadorNotas;
 
   public CalculadorMinimoNotasTest() {
     this.calculadorNotas = new CalculadorMinimoNotas();
@@ -46,6 +45,10 @@ public class CalculadorMinimoNotasTest {
     montanteDisponivel.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(20), 1));
     montanteDisponivel.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(5), 6));
 
+    /*
+    * A maneira mais otimizada seria uma nota de 20 e uma de 10 se fossem notas infinitas,
+    * mas como não temos notas de 10, deve retornar uma de 20 e duas de 5.
+    * */
     List<GrupoNotas> notasEsperadas = Arrays
         .asList(new GrupoNotas(BigDecimal.valueOf(20), 1), new GrupoNotas(BigDecimal.valueOf(5), 2));
 
@@ -85,7 +88,8 @@ public class CalculadorMinimoNotasTest {
     final Montante montanteDisponivel = new Montante();
     montanteDisponivel.adicionarGrupo(new GrupoNotas(BigDecimal.valueOf(0.25), 4));
 
-    List<GrupoNotas> notasEsperadas = Arrays.asList(new GrupoNotas(BigDecimal.valueOf(0.25), 3));
+    List<GrupoNotas> notasEsperadas = Collections
+        .singletonList(new GrupoNotas(BigDecimal.valueOf(0.25), 3));
 
     BigDecimal valorSolicitado = BigDecimal.valueOf(0.75);
     Montante montanteEntregue = this.calculadorNotas.calcular(valorSolicitado, montanteDisponivel);

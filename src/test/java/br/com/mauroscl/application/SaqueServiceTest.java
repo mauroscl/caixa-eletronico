@@ -21,7 +21,7 @@ import org.junit.rules.ExpectedException;
 public class SaqueServiceTest {
 
   @Rule
-  public ExpectedException expectedException = ExpectedException.none();
+  public final ExpectedException expectedException = ExpectedException.none();
 
   private final ISaqueService saqueService;
   private final IMontanteRepository montanteRepository;

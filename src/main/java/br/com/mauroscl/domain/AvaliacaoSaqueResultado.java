@@ -1,8 +1,8 @@
 package br.com.mauroscl.domain;
 
 public class AvaliacaoSaqueResultado {
-  private Montante montanteParaEntregar;
-  private Montante novoMontanteDisponivel;
+  private final Montante montanteParaEntregar;
+  private final Montante novoMontanteDisponivel;
 
   public AvaliacaoSaqueResultado(final Montante montanteParaEntregar, final Montante novoMontanteDisponivel) {
     this.montanteParaEntregar = montanteParaEntregar;

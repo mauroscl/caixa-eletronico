@@ -10,8 +10,8 @@ import br.com.mauroscl.shared.BigDecimalComparador;
 
 class SaqueService implements ISaqueService {
 
-  protected static final String VALOR_SAQUE_INVALIDO = "Valor solicitado para saque deve ser maior do que zero.";
-  protected static final String CASAS_DECIMAIS_SAQUE_INVALIDO = "Valor solicitado para saque deve conter no máximo 2 dígitos decimais.";
+  static final String VALOR_SAQUE_INVALIDO = "Valor solicitado para saque deve ser maior do que zero.";
+  static final String CASAS_DECIMAIS_SAQUE_INVALIDO = "Valor solicitado para saque deve conter no máximo 2 dígitos decimais.";
 
   private final IMontanteRepository montanteRepository;
   private final IAvaliadorSaqueService avaliadorSaqueService;
@@ -41,7 +41,7 @@ class SaqueService implements ISaqueService {
         .ifPresentOrElse(resultado -> {
           this.caixaService.entregarDinheiro(resultado.getMontanteParaEntregar());
           this.montanteRepository.salvar(resultado.getNovoMontanteDisponivel());
-        }, () -> this.caixaService.avisarIndisponibilidade());
+        }, this.caixaService::avisarIndisponibilidade);
   }
 
 }

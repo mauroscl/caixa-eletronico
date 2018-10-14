@@ -13,7 +13,7 @@ import org.junit.rules.ExpectedException;
 public class GrupoNotasTest {
 
   @Rule
-  public ExpectedException expectedException = ExpectedException.none();
+  public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
   public void deveCriarGrupoNotasComValoresCorretos() {
@@ -84,7 +84,7 @@ public class GrupoNotasTest {
   }
 
   @Test
-  public void quandoQuantidadesForemIguaisDeveRetornarGrupoVazio() {
+  public void quandoSubtrairDoisGruposDeMesmaQuantidadeNaoDeveRetornarUmGrupo() {
     final GrupoNotas grupo1 = new GrupoNotas(BigDecimal.TEN, 5);
     final GrupoNotas grupo2 = new GrupoNotas(BigDecimal.TEN, 5);
     final Optional<GrupoNotas> novoGrupo = grupo1.subtrair(grupo2);

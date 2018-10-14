@@ -1,6 +1,6 @@
 package br.com.mauroscl.application;
 
-public interface ISaqueService {
+interface ISaqueService {
 
   void sacar(SaqueCommand command);
 }

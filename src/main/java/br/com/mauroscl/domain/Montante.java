@@ -9,18 +9,18 @@ import br.com.mauroscl.shared.BigDecimalComparador;
 
 public class Montante {
 
-  private Collection<GrupoNotas> gruposNotas;
+  private final Collection<GrupoNotas> gruposNotas;
 
   public Montante() {
     this.gruposNotas = new ArrayList<>();
   }
 
-  protected BigDecimal getValorTotal() {
-    return this.gruposNotas.stream().map(grupoNotas -> grupoNotas.getValorTotal())
+  BigDecimal getValorTotal() {
+    return this.gruposNotas.stream().map(GrupoNotas::getValorTotal)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
-  protected Collection<GrupoNotas> getGruposNotas() {
+  Collection<GrupoNotas> getGruposNotas() {
     return Collections.unmodifiableCollection(this.gruposNotas);
   }
 
@@ -33,7 +33,7 @@ public class Montante {
         }, () -> this.gruposNotas.add(grupoNotas));
   }
 
-  protected Montante remover(final Montante montanteParaRemover) {
+  Montante remover(final Montante montanteParaRemover) {
     final Montante montante = new Montante();
     final Collection<GrupoNotas> gruposNotasParaRemover = montanteParaRemover.getGruposNotas();
 
@@ -41,7 +41,7 @@ public class Montante {
       gruposNotasParaRemover.stream().filter(this.notasDoMesmoValor(grupoNotas.getValor()))
           .findFirst()
           .ifPresentOrElse(possivelGrupo -> grupoNotas.subtrair(possivelGrupo)
-              .ifPresent(novoGrupo -> montante.adicionarGrupo(novoGrupo)),
+              .ifPresent(montante::adicionarGrupo),
           () -> montante.adicionarGrupo(grupoNotas));
     }
     return montante;
